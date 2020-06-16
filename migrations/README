@@ -1,0 +1,4 @@
+Generic single-database configuration.
+-set APP_SETTINGS=config.DevelopmentConfig
+
+-set DATABASE_URL=postgresql://postgres:password@localhost:5432/autism

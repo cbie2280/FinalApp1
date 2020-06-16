@@ -1,0 +1,93 @@
+<html>
+<head>
+    <style type="text/css">
+        body {
+            overflow: hidden; /* Hide scrollbars */
+        }
+
+        .dogAnimation {
+            overflow: hidden;
+            animation-name: moveToLeft;
+            animation-duration: 8s;
+            animation-timing-function: linear;
+            left: 0px;
+            left: calc(0% - 200px);
+            position: absolute;
+            width: 200px;
+        }
+
+        #catAnimation {
+            overflow: hidden;
+            animation-delay: 8s;
+            animation-name: movetoRight;
+            animation-duration: 8s;
+            animation-timing-function: linear;
+            right: 0px;
+            right: calc(0% - 200px);
+            position: absolute;
+            width: 200px;
+        }
+
+        .frogAnimation {
+            overflow: hidden;
+            animation-delay: 16s;
+            animation-name: movetoTopRtoBottomL;
+            animation-duration: 15s;
+            animation-timing-function: linear;
+            top: 200px;
+            top: calc(0% - 200px);
+            position: absolute;
+            width: 200px;
+            left: 40%;
+
+        }
+
+        @keyframes movetoRight {
+            0% {
+                right: calc(100% + 200px);
+            }
+            100% {
+                right: calc(0% - 200px);
+
+            }
+        }
+
+
+        @keyframes moveToLeft {
+            0% {
+                left: calc(100% + 200px);
+            }
+            100% {
+                left: calc(0% - 200px);
+            }
+        }
+
+
+        @keyframes movetoTopRtoBottomL {
+            0% {
+                top: calc(100% + 200px);
+            }
+            100% {
+                top: calc(0% - 200px);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="recorder2">
+{#    <button id="record" type="submit">Start</button>#}
+{#    <button id="stop">Stop</button>#}
+    <a id="download"></a>
+    <script type="text/javascript" src="{{ filename }}"></script>
+</div>
+<img class="dogAnimation" src="{{ dog_image }}"/>
+<img id="catAnimation" src="{{ cat_image }}"/>
+<img class="frogAnimation" src="{{ frog_image }}"/>
+
+<audio autoplay="true" src="{{ dog_sound }}" type="audio/mp3"></audio>
+
+<source src="{{ dog_sound }}" type="audio/mpeg">
+
+
+</body>
+</html>

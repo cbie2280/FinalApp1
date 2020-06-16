@@ -1,0 +1,58 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    Rezultate
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/log2.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            Rezultate
+        </h1>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" style="background: #fff;">
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Mean</th>
+                <th>See the graph</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+{#            {% for row in value %}#}
+                <tr>
+                    <td>{{ "2020/06/02" }}</td>
+                    <td>{{ 0.48 }}</td>
+
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a style="color: #e60000 !important;">
+{#                           href={{ url_for('patient.graph') }}>#}
+                            X
+                        </a>
+
+                    </td>
+
+                </tr>
+{#            {% endfor %}#}
+
+            </tbody>
+        </table>
+
+    </div>
+    <form action="/toti_pacientii">
+        <div class="login-form">
+            <div class="group">
+                <button class="button" type="submit">Înapoi</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

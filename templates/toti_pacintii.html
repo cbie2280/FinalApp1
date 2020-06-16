@@ -1,0 +1,78 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    Pacienti
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/log2.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            Pacienții mei
+        </h1>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" style="background: #fff;">
+            <thead>
+            <tr>
+                <th>Nume părinte</th>
+                <th>Prenume părinte</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th>Nume copil</th>
+                <th>Prenume copil</th>
+                <th>Vârstă copil</th>
+                <th>Status</th>
+                <th>Șterge pacient</th>
+                <th>Rezultate</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for row in value %}
+                <tr>
+                    <td>{{ row.numeParinte }}</td>
+                    <td>{{ row.prenumeParinte }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>{{ row.telefon }}</td>
+                    <td>{{ row.numeCopil }}</td>
+                    <td>{{ row.prenumeCopil }}</td>
+                    <td>{{ row.varsta }} &nbsp;&nbsp;
+                    </td>
+                    <td>{{ row.status }} </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a style="color: #e60000 !important;"
+                           href={{ url_for('patient.sterge_pacient', pacientId=row.id) }}>
+
+                            X
+                        </a>
+
+                    </td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a style="color: #e60000 !important;"
+                           href={{ url_for('patient.results', pacientId=row.id) }}>
+
+                            X
+                        </a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+    <form action="/pag_medic">
+        <div class="login-form">
+            <div class="group">
+                <button class="button" type="submit">Înapoi</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

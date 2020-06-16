@@ -1,0 +1,94 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    Medic
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/log2.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="login-wrap">
+        <div class="login-html">
+
+            <form class="form-signin" method="post" action="/creeaza_pacient">
+                <div class="login-form">
+                    {{ form.hidden_tag() }}
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.numeParinte) }}
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.prenumePatinte) }}
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.telefon) }}
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.email) }}
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.parola) }}
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.parola2) }}
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.numeCopil) }}
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.prenumeCopil) }}
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div id="user" type="text" class="input">
+                            {{ wtf.form_field(form.varsta) }}
+                        </div>
+                    </div>
+
+                    <div class="group">{{ form.submit(class_="button") }}</div>
+
+                </div>
+            </form>
+            <div class="login-form">
+                <div class="group">
+                    <form action="/pag_medic">
+                        <button class="button" type="submit">Inapoi</button>
+
+                    </form>
+                    <br>
+                    <form action="/logout">
+
+                        <button class="button" type="submit">Logout</button>
+
+                    </form>
+
+
+                </div> <!-- /container -->
+            </div> <!-- /container -->
+        </div> <!-- /container -->
+    </div> <!-- /container -->
+
+    </div> <!-- /container -->
+    </div> <!-- /container -->
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    Pacienti
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/log2.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            Medici
+        </h1>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" style="background: #fff;">
+            <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Prenume</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Șterge medic</th>
+                <th>Aproba medic</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for row in value %}
+                <tr>
+                    <td>{{ row.nume }}</td>
+                    <td>{{ row.prenume }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>{{ row.status }} </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a style="color: #e60000 !important;"
+                           href={{ url_for('medic.sterge_medic', medicId=row.id) }}>
+
+                            X
+                        </a>
+
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a style="color: #e60000 !important;"
+                           href={{ url_for('medic.aproba_medic', medicId=row.id) }}>
+
+                            X
+                        </a>
+
+                    </td>
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+    <form action="/admin">
+        <div class="login-form">
+            <div class="group">
+                <button class="button" type="submit">Înapoi</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

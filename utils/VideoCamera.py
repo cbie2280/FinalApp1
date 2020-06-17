@@ -31,7 +31,8 @@ class VideoCamera(object):
             if self.is_record:
                 if self.out == None:
                     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-                    self.out = cv2.VideoWriter('./static/video.avi', fourcc, 20.0, (640, 480))
+                    print("just once")
+                    self.out = cv2.VideoWriter('./static/video1.avi', fourcc, 20.0, (640, 480))
 
                 ret, frame = self.cap.read()
                 if ret:

@@ -12,6 +12,7 @@ from nustiu.admin.admin import mod4
 from utils.Util import *
 
 # from controller.MedicController import medic
+
 from utils.extensions import db
 
 
@@ -19,7 +20,6 @@ app = Flask(__name__)
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 Bootstrap(app)
-
 
 db.init_app(app)
 login = LoginManager(app)
@@ -33,6 +33,7 @@ app.register_blueprint(mod4)
 
 if __name__ == '__main__':
     from nustiu.general.general import *
+
     # from routes import *
 
-    app.run( debug=True)
+    app.run(debug=True)

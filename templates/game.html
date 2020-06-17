@@ -1,12 +1,13 @@
 <html>
 <head>
+
     <style type="text/css">
         body {
             overflow: hidden; /* Hide scrollbars */
         }
 
         .dogAnimation {
-             vertical-align:middle;
+            vertical-align: middle;
             overflow: hidden;
             animation-name: moveToLeft;
             animation-duration: 8s;
@@ -35,13 +36,57 @@
             overflow: hidden;
             animation-delay: 16s;
             animation-name: movetoTopRtoBottomL;
-            animation-duration: 15s;
+            animation-duration: 8s;
             animation-timing-function: linear;
             top: 200px;
             top: calc(0% - 200px);
             position: absolute;
             width: 200px;
             left: 40%;
+
+        }
+
+        .rabbitAnimation {
+            vertical-align: middle;
+            overflow: hidden;
+            animation-delay: 32s;
+            animation-name: moveToLeft;
+            animation-duration: 8s;
+            animation-timing-function: linear;
+            left: 0px;
+            left: calc(0% - 200px);
+            top: 100px;
+            position: absolute;
+            width: 200px;
+        }
+
+        .chickenAnimation {
+            overflow: hidden;
+            animation-delay: 24s;
+            animation-name: movetoRight;
+            animation-duration: 8s;
+            animation-timing-function: linear;
+            right: 0px;
+            right: calc(0% - 200px);
+            top: 100px;
+            position: absolute;
+            width: 200px;
+        }
+
+        .wrapper {
+            text-align: center;
+        }
+
+
+        .button {
+            border: none;
+            padding: 15px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, .1);
+            color: white;
+            background-color: #007bff;
+            position: absolute;
+            top: 40%;
 
         }
 
@@ -74,23 +119,46 @@
                 top: calc(0% - 200px);
             }
         }
+
+
     </style>
 </head>
 <body>
-<div id="recorder2">
-{#    <button id="record" type="submit">Start</button>#}
-{#    <button id="stop">Stop</button>#}
+<div id="r3">
+    {#    <button id="record" type="submit">Start</button>#}
+    {#    <button id="stop">Stop</button>#}
     <a id="download"></a>
     <script type="text/javascript" src="{{ filename }}"></script>
 </div>
 <img class="dogAnimation" src="{{ dog_image }}"/>
 <img id="catAnimation" src="{{ cat_image }}"/>
 <img class="frogAnimation" src="{{ frog_image }}"/>
-
+<img class="rabbitAnimation" src="{{ rabbit_image }}"/>
+<img class="chickenAnimation" src="{{ chicken_image }}"/>
 <audio autoplay="true" src="{{ dog_sound }}" type="audio/mp3"></audio>
 
 <source src="{{ dog_sound }}" type="audio/mpeg">
 
+
+<div id="some-button">
+    <form action="/savepls">
+
+        <div class="wrapper">
+            <button id="some-button" class="button" type="submit">Înapoi</button>
+        </div>
+
+    </form>
+</div>
+<script>
+    document.getElementById("some-button").style.display = "none";
+
+    function showStuff() {
+        document.getElementById("some-button").style.display = "inline";
+    }
+
+
+    setTimeout(showStuff, 1000);
+</script>
 
 </body>
 </html>

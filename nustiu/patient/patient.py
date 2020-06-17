@@ -65,3 +65,6 @@ def modifica_varsta(pacientId):
 def results(pacientId):
     return patientController.results(pacientId)
 
+@mod2.route('/graph/<pacientId>', methods=["GET", "POST"])
+def graph(pacientId):
+    return patientController.graph(pacientId)

@@ -11,12 +11,14 @@ class RecordingThread(threading.Thread):
 
         self.cap = camera
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        print("ajunge?")
         FILE_OUTPUT = './static/video.avi'
 
         # Checks and deletes the output file
         # You cant have a existing file or it will through an error
         if os.path.isfile(FILE_OUTPUT):
             os.remove(FILE_OUTPUT)
+        print("cacacaca")
         self.out = cv2.VideoWriter('./static/video.avi', fourcc, 20.0, (640, 480))
 
     def run(self):

@@ -871,7 +871,9 @@ regr = MLPRegressor(random_state=1, max_iter=1500, learning_rate="adaptive").fit
 
 filename = 'finalized_model.sav'
 pickle.dump(regr, open(filename, 'wb'))
+loaded_model = pickle.load(open('finalized_model.sav', 'rb'))
+result = loaded_model.predict(MOR2)
+print(result)
+# print(regr.predict(MOR2))
 
-print(regr.predict(MOR2))
-
-print(regr.score(X_test, y_test))
+# print(regr.score(X_test, y_test))

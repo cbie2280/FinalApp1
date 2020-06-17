@@ -1,5 +1,9 @@
+import base64
 import os
-
+from mpl_toolkits import mplot3d
+import io
+import numpy as np
+import matplotlib.pyplot as plt
 from flask import render_template, redirect, url_for
 from flask_login import current_user
 
@@ -61,7 +65,23 @@ class PatientController(IController):
 
     def results(self,pacientId):
         data=patientRepository.results(pacientId)
-
         return render_template('results.html', title='Rezultate', value=data)
+
+    def graph(self,pacientId):
+        data=patientRepository.graph(pacientId)
+        x=[]
+        y=[]
+        for i in range(0,len(data[0][0])):
+            x.append(data[0][0][i])
+            y.append(i)
+        img = io.BytesIO()
+        plt.plot(y, x)
+        plt.savefig(img, format='png')
+        img.seek(0)
+
+        plot_url = base64.b64encode(img.getvalue()).decode()
+
+        return '<img src="data:image/png;base64,{}">'.format(plot_url)
+
 
 patientController = PatientController()

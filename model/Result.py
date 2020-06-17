@@ -11,7 +11,8 @@ class Result(db.Model):
     mean = db.Column(db.Float, nullable=False)
     pacientId = db.Column(db.Float, nullable=False)
 
-    def __init__(self, date, results, mean):
+    def __init__(self, date, results, mean, pacientId):
         self.date = date
         self.results = results
         self.mean = mean
+        self.pacientId=pacientId

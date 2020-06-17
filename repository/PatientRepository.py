@@ -61,4 +61,13 @@ class PatientRepository(IRepository):
 
         return data
 
+    def graph(self,pacientId):
+        results = db.session.execute("select results from results  where results.id = :name", {"name": pacientId})
+        data = []
+
+        for result in results:
+            data.append(result)
+
+        return data
+
 patientRepository = PatientRepository()

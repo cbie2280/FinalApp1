@@ -38,4 +38,20 @@ def save():
 
     thread = Thread(target=do_work, kwargs={'value': request.args.get('value', current_user.id)})
     thread.start()
-    return render_template('start.html', title='haha')
+    return render_template('welldone.html', title='haha')
+
+@app.route('/savepls1')
+@login_required
+def save1():
+    def do_work(value):
+        a=cameraController.pls(value)
+        with app.app_context():
+            db.session.add(a)
+            db.session.commit()
+        import time
+        time.sleep(value)
+
+    thread = Thread(target=do_work, kwargs={'value': request.args.get('value', current_user.id)})
+    thread.start()
+    return render_template('notsogood.html', title='haha')
+

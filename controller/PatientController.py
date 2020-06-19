@@ -1,10 +1,13 @@
 import base64
 import os
+
+from matplotlib.backends.backend_template import FigureCanvas
+from matplotlib.figure import Figure
 from mpl_toolkits import mplot3d
 import io
 import numpy as np
 import matplotlib.pyplot as plt
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, Response
 from flask_login import current_user
 
 from controller.IController import IController
@@ -78,10 +81,14 @@ class PatientController(IController):
         plt.plot(y, x)
         plt.savefig(img, format='png')
         img.seek(0)
-
+        plt.close()
         plot_url = base64.b64encode(img.getvalue()).decode()
 
         return '<img src="data:image/png;base64,{}">'.format(plot_url)
 
 
+
 patientController = PatientController()
+
+
+

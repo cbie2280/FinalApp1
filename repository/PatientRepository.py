@@ -2,7 +2,9 @@ import os
 
 from flask import redirect, url_for
 from flask_login import current_user
-
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from model.Patient import Patient
 from model.Result import Result
 from repository.IRepository import IRepository
@@ -55,7 +57,7 @@ class PatientRepository(IRepository):
     def results(self,pacientId):
         results = db.session.execute("select * from pacienti  join results on pacienti.id = :name", {"name": pacientId})
         data = []
-
+        print("bfsjkbfjksnfs")
         for result in results:
             data.append(result)
 

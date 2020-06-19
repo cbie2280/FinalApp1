@@ -3,6 +3,7 @@ import cv2
 import dlib
 import numpy as np
 from datetime import date
+from random import shuffle
 
 import sklearn
 from flask import render_template, request, Response, jsonify
@@ -28,13 +29,29 @@ class CameraController:
         current_app.config['UPLOAD_FOLDER2'] = APP_ROOT6
         dog = os.path.join(current_app.config['UPLOAD_FOLDER'], 'dog2.gif')
         cat = os.path.join(current_app.config['UPLOAD_FOLDER'], 'cat.gif')
-        dogS = os.path.join(current_app.config['UPLOAD_FOLDER'], 'sound1.mp3')
+        sound = os.path.join(current_app.config['UPLOAD_FOLDER'], 'mare.mp3')
         frog = os.path.join(current_app.config['UPLOAD_FOLDER'], 'frog.gif')
         chicken = os.path.join(current_app.config['UPLOAD_FOLDER'], 'chicken.gif')
-        rabbit = os.path.join(current_app.config['UPLOAD_FOLDER'], 'horse.gif')
+        horse = os.path.join(current_app.config['UPLOAD_FOLDER'], 'horse.gif')
         video = os.path.join(current_app.config['UPLOAD_FOLDER2'], 'r3.js')
-        return render_template('game.html', dog_image=dog, cat_image=cat, dog_sound=dogS, filename=video,
-                               frog_image=frog, chicken_image=chicken, rabbit_image=rabbit)
+
+        dogS = os.path.join(current_app.config['UPLOAD_FOLDER'], 'dogS.mp3')
+        catS = os.path.join(current_app.config['UPLOAD_FOLDER'], 'catS.mp3')
+        frogS = os.path.join(current_app.config['UPLOAD_FOLDER'], 'frog.wav')
+        chickenS = os.path.join(current_app.config['UPLOAD_FOLDER'], 'chicken.mp3')
+        horseS = os.path.join(current_app.config['UPLOAD_FOLDER'], 'horse.wav')
+
+        list = []
+        list.append([dog, dogS])
+        list.append([cat, catS])
+        list.append([frog, frogS])
+        list.append([chicken, chickenS])
+        list.append([horse, horseS])
+        shuffle(list)
+        result = list[:3]
+
+        return render_template('game.html', dog_image=dog, cat_image=cat, sound=sound, filename=video,
+                               frog_image=frog, chicken_image=chicken, rabbit_image=horse, multe=result)
 
     def record_status(self):
         global video_camera
@@ -106,8 +123,6 @@ class CameraController:
         except:
             pass
 
-
-
     def det(self, a, b):
         return a[0] * b[1] - a[1] * b[0]
 
@@ -119,8 +134,7 @@ class CameraController:
 
     # cv2.createTrackbar('threshold', 'image', 0, 255, nothing)
 
-
-    def pls(self,param):
+    def pls(self, param):
 
         detector = dlib.get_frontal_face_detector()
         predictor = dlib.shape_predictor('C:\\Users\\Bianca\\PycharmProjects\\shape.dat')
@@ -148,8 +162,8 @@ class CameraController:
                     shape = predictor(gray, rect)
                     shape = self.shape_to_np(shape)
                     mask = np.zeros(img.shape[:2], dtype=np.uint8)
-                    mask = self.eye_on_mask(mask, left,shape)
-                    mask = self.eye_on_mask(mask, right,shape)
+                    mask = self.eye_on_mask(mask, left, shape)
+                    mask = self.eye_on_mask(mask, right, shape)
                     mask = cv2.dilate(mask, kernel, 5)
                     eyes = cv2.bitwise_and(img, img, mask=mask)
                     mask = (eyes == [0, 0, 0]).all(axis=2)
@@ -241,13 +255,17 @@ class CameraController:
 
         loaded_model = pickle.load(open('finalized_model.sav', 'rb'))
         MOR2 = sklearn.preprocessing.normalize(p)
+        print(MOR2)
         da = loaded_model.predict(MOR2)
         print(da)
 
-        result = Result(date= date.today() ,results=da, mean=0.5, pacientId=param)
+        s = 0.0
+        for i in range(0, len(da)):
+            s = s + da[i]
+        mean = s / len(da)
+
+        result = Result(date=date.today(), results=da, mean=mean, pacientId=param)
         return result
-
-
 
         cap.release()
         cv2.destroyAllWindows()

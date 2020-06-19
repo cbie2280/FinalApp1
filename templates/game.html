@@ -86,8 +86,27 @@
             color: white;
             background-color: #007bff;
             position: absolute;
+            top: 20%;
+        }
+        .button1 {
+            border: none;
+            padding: 15px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, .1);
+            color: white;
+            background-color: #007bff;
+            position: absolute;
             top: 40%;
-
+        }
+        .button2 {
+            border: none;
+            padding: 15px 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, .1);
+            color: white;
+            background-color: #007bff;
+            position: absolute;
+            top: 60%;
         }
 
         @keyframes movetoRight {
@@ -120,7 +139,6 @@
             }
         }
 
-
     </style>
 </head>
 <body>
@@ -130,25 +148,65 @@
     <a id="download"></a>
     <script type="text/javascript" src="{{ filename }}"></script>
 </div>
+
 <img class="dogAnimation" src="{{ dog_image }}"/>
 <img id="catAnimation" src="{{ cat_image }}"/>
 <img class="frogAnimation" src="{{ frog_image }}"/>
 <img class="rabbitAnimation" src="{{ rabbit_image }}"/>
 <img class="chickenAnimation" src="{{ chicken_image }}"/>
-<audio autoplay="true" src="{{ dog_sound }}" type="audio/mp3"></audio>
+<audio autoplay="true" src="{{ sound }}" type="audio/mp3"></audio>
+{#<source src="{{ sound }}" type="audio/mpeg">#}
 
-<source src="{{ dog_sound }}" type="audio/mpeg">
 
 
 <div id="some-button">
-    <form action="/savepls">
+    <form action="/savepls1">
 
         <div class="wrapper">
-            <button id="some-button" class="button" type="submit">Înapoi</button>
+            <img width="200px" id="some-button" src="{{ multe[0][0] }}"/>
+            <button id="some-button" class="button" type="submit"></button>
         </div>
+
+
+
+    </form>
+        <form action="/savepls">
+
+
+        <div class="wrapper">
+{#            <audio id="some-button"  src="{{ multe[1][1] }}" type="audio/mp3"></audio>#}
+             <audio id="audiotag1" src="{{ multe[1][1] }}" ></audio>
+            <img width="200px" id="some-button" src="{{ multe[1][0] }}"/>
+            <button id="some-button" class="button1" type="submit"></button>
+        </div>
+
+
+             <script type="text/javascript">
+        function play_single_sound() {
+            console.log("ok");
+            document.getElementById('audiotag1').play();
+        }
+        setTimeout(play_single_sound, 40000);
+    </script>
+
+
+
+{#    <a href="javascript:play_single_sound();">warning_alarm</a>#}
+
+
+
+    </form>
+        <form action="/savepls1">
+
+        <div class="wrapper">
+            <img width="200px" id="some-button" src="{{ multe[2][0] }}"/>
+            <button id="some-button" class="button2" type="submit"></button>
+        </div>
+
 
     </form>
 </div>
+
 <script>
     document.getElementById("some-button").style.display = "none";
 
@@ -157,7 +215,7 @@
     }
 
 
-    setTimeout(showStuff, 1000);
+    setTimeout(showStuff, 40000);
 </script>
 
 </body>

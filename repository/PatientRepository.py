@@ -42,6 +42,12 @@ class PatientRepository(IRepository):
         return data
 
     def sterge(self, id):
+        results = db.session.execute("select * from pacienti  join results on pacienti.id = :name", {"name": id})
+        for result in results:
+            Result.query.filter_by(id=result.id).delete()
+            db.session.commit()
+
+
         Patient.query.filter_by(id=id).delete()
         db.session.commit()
 
@@ -57,7 +63,7 @@ class PatientRepository(IRepository):
     def results(self,pacientId):
         results = db.session.execute("select * from pacienti  join results on pacienti.id = :name", {"name": pacientId})
         data = []
-        print("bfsjkbfjksnfs")
+
         for result in results:
             data.append(result)
 

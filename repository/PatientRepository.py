@@ -60,9 +60,11 @@ class PatientRepository(IRepository):
         pacient.varsta = int(var)
         db.session.commit()
 
-    def results(self,pacientId):
-        results = db.session.execute("select * from pacienti  join results on pacienti.id = :name", {"name": pacientId})
+    def results(self,pacientId, param):
+        results = db.session.execute('select * from pacienti join medici on medici.id= pacienti."medicId" join results on pacienti.id =results."pacientId" where pacienti.id= :name and medici.id= :name1', {"name1": param, "name": pacientId})
         data = []
+        print(param)
+        print(pacientId)
 
         for result in results:
             data.append(result)

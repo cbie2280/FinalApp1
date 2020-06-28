@@ -22,6 +22,8 @@ class CameraController:
     def __init__(self):
         pass
 
+
+
     def start(self):
         APP_ROOT = os.path.join('static', 'animals')
         APP_ROOT6 = os.path.join('static', 'js')
@@ -92,13 +94,10 @@ class CameraController:
                         mimetype='multipart/x-mixed-replace; boundary=frame')
 
     def shape_to_np(self, shape, dtype="int"):
-        # initialize the list of (x, y)-coordinates
+
         coords = np.zeros((68, 2), dtype=dtype)
-        # loop over the 68 facial landmarks and convert them
-        # to a 2-tuple of (x, y)-coordinates
         for i in range(0, 68):
             coords[i] = (shape.part(i).x, shape.part(i).y)
-        # return the list of (x, y)-coordinates
         return coords
 
     def eye_on_mask(self, mask, side, shape):
@@ -107,17 +106,15 @@ class CameraController:
         mask = cv2.fillConvexPoly(mask, points, 255)
         return mask
 
-    def contouring(self, thresh, mid, img, right=False):
+    def locatePupils(self, thresh, mid, img, right=False):
         cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         try:
             cnt = max(cnts, key=cv2.contourArea)
             M = cv2.moments(cnt)
             cx = int(M['m10'] / M['m00'])
             cy = int(M['m01'] / M['m00'])
-            # print(cx,cy)
             if right:
                 cx += mid
-            # cv2.circle(img, (cx, cy), 4, (0, 0, 255), 2)
             cv2.circle(img, (cx, cy), 8, ([17, 15, 100]), 1)
             return (cx, cy)
         except:
@@ -129,12 +126,31 @@ class CameraController:
     def mid1(self, p1, p2):
         return int((p1.x + p2.x) / 2), int((p1.y + p2.y) / 2)
 
-    def nothing(self, x):
-        pass
+    def predi(self, xo, yo, param):
+        p = []
+        j = 0
+        while (j <= len(xo) - 200):
+            linie = []
+            for i in range(j, j + 200):
+                linie.append(xo[i])
+                linie.append(yo[i])
+            p.append(linie)
+            j = j + 10
 
-    # cv2.createTrackbar('threshold', 'image', 0, 255, nothing)
+        loaded_model = pickle.load(open('finalized_model.sav', 'rb'))
+        norm = sklearn.preprocessing.normalize(p)
+        predict = loaded_model.predict(norm)
+        print(predict)
 
-    def pls(self, param):
+        s = 0.0
+        for i in range(0, len(predict)):
+            s = s + predict[i]
+        mean = s / len(predict)
+
+        result = Result(date=date.today(), results=predict, mean=mean, pacientId=param)
+        return result
+
+    def getResults(self, param):
 
         detector = dlib.get_frontal_face_detector()
         predictor = dlib.shape_predictor('C:\\Users\\Bianca\\PycharmProjects\\shape.dat')
@@ -143,10 +159,8 @@ class CameraController:
         right = [42, 43, 44, 45, 46, 47]
 
         cap = cv2.VideoCapture('C:\\Users\\Bianca\\PycharmProjects\\FinalApp\\static\\video.avi')
-        # cap = cv2.VideoCapture('C:\\Users\\Bianca\\Desktop\\videos\\hai.avi')
         # cap = cv2.VideoCapture(0)
         _, img = cap.read()
-        thresh = img.copy()
 
         kernel = np.ones((9, 9), np.uint8)
         xo = [0]
@@ -170,14 +184,14 @@ class CameraController:
                     eyes[mask] = [255, 255, 255]
                     mid = (shape[42][0] + shape[39][0]) // 2
                     eyes_gray = cv2.cvtColor(eyes, cv2.COLOR_BGR2GRAY)
-                    _, thresh = cv2.threshold(eyes_gray, 80, 255, cv2.THRESH_BINARY)
+                    _, thresh = cv2.threshold(eyes_gray, 75, 255, cv2.THRESH_BINARY)
                     thresh = cv2.erode(thresh, None, iterations=2)  # 1
                     thresh = cv2.dilate(thresh, None, iterations=4)  # 2
                     thresh = cv2.medianBlur(thresh, 3)  # 3
                     thresh = cv2.bitwise_not(thresh)
 
-                    bla = self.contouring(thresh[:, 0:mid], mid, img)
-                    bla1 = self.contouring(thresh[:, mid:], mid, img, True)
+                    midL = self.locatePupils(thresh[:, 0:mid], mid, img)
+                    midR = self.locatePupils(thresh[:, mid:], mid, img, True)
 
                     landmarks = predictor(gray, rect)
                     left_point = (landmarks.part(36).x, landmarks.part(36).y)
@@ -192,83 +206,52 @@ class CameraController:
 
                     a = int((left_point[0] + right_point[0]) / 2)
                     b = int((left_point[1] + right_point[1]) / 2)
-                    centre = (a, b)
 
                     c = int((left_point_r[0] + right_point_r[0]) / 2)
                     d = int((left_point_r[1] + right_point_r[1]) / 2)
-                    centre_r = (c, d)
 
-                    if bla != None and bla1 != None:
-                        xdiff = (a - bla[0], c - bla1[0])
-                        ydiff = (b - bla[1], d - bla1[1])
+                    if midL != None and midR != None:
+                        xdiff = (a - midL[0], c - midR[0])
+                        ydiff = (b - midL[1], d - midR[1])
 
                         div = self.det(xdiff, ydiff)
                         if div != 0:
 
-                            line1 = ((a, b), bla)
-                            line2 = ((c, d), bla1)
+                            line1 = ((a, b), midL)
+                            line2 = ((c, d), midR)
 
                             d = (self.det(*line1), self.det(*line2))
                             x = self.det(d, xdiff) / div
                             y = self.det(d, ydiff) / div
 
                             inter = (int(x), int(y))
-                            print(inter)
                             xo.append(inter[0])
                             yo.append(inter[1])
 
-                            # cv2.circle(img, (a, b), 8, ([255, 0, 0]), 1)
-                            hor_line = cv2.line(img, left_point, right_point, (0, 255, 0), 1)
-                            ver_line = cv2.line(img, center_top, center_bottom, (0, 255, 0), 1)
-                            ver_line = cv2.line(img, bla, inter, (0, 0, 255), 2)
+                            cv2.line(img, left_point, right_point, (0, 255, 0), 1)
+                            cv2.line(img, center_top, center_bottom, (0, 255, 0), 1)
+                            cv2.line(img, midL, inter, (0, 0, 255), 2)
 
-                            hor_line_r = cv2.line(img, left_point_r, right_point_r, (0, 255, 0), 1)
-                            ver_line_r = cv2.line(img, center_top_r, center_bottom_r, (0, 255, 0), 1)
-                            ver_line_r = cv2.line(img, bla1, inter, (0, 0, 255), 2)
+                            cv2.line(img, left_point_r, right_point_r, (0, 255, 0), 1)
+                            cv2.line(img, center_top_r, center_bottom_r, (0, 255, 0), 1)
+                            cv2.line(img, midR, inter, (0, 0, 255), 2)
 
                         else:
                             xo.append(xo[len(xo) - 1])
                             yo.append(yo[len(yo) - 1])
 
-                    print(xo)
-                    print(len(xo))
-                    print(yo)
-                    print(len(yo))
-
                 cv2.imshow('eyes', img)
-                # cv2.imshow("image", thresh)
 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 
             else:
                 break
-        p = []
-        j = 0
-        while (j <= len(xo) - 200):
-            linie = []
-            for i in range(j, j + 200):
-                linie.append(xo[i])
-                linie.append(yo[i])
-            p.append(linie)
-            j = j + 10
 
-        loaded_model = pickle.load(open('finalized_model.sav', 'rb'))
-        MOR2 = sklearn.preprocessing.normalize(p)
-        print(MOR2)
-        da = loaded_model.predict(MOR2)
-        print(da)
-
-        s = 0.0
-        for i in range(0, len(da)):
-            s = s + da[i]
-        mean = s / len(da)
-
-        result = Result(date=date.today(), results=da, mean=mean, pacientId=param)
-        return result
 
         cap.release()
         cv2.destroyAllWindows()
+        return self.predi(xo, yo, param)
 
 
 cameraController = CameraController()

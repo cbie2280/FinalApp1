@@ -31,6 +31,13 @@ app.register_blueprint(mod1)
 app.register_blueprint(mod3)
 app.register_blueprint(mod4)
 
+def create_app():
+
+    @app.route('/500')
+    def error():
+        os.abort(500)
+    return app
+
 if __name__ == '__main__':
     from nustiu.general.general import *
 

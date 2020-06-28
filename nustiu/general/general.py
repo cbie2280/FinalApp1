@@ -25,11 +25,11 @@ def register():
     return generalController.register()
 
 
-@app.route('/savepls')
+@app.route('/saveR')
 @login_required
 def save():
     def do_work(value):
-        a=cameraController.pls(value)
+        a=cameraController.getResults(value)
         with app.app_context():
             db.session.add(a)
             db.session.commit()
@@ -40,11 +40,11 @@ def save():
     thread.start()
     return render_template('welldone.html', title='haha')
 
-@app.route('/savepls1')
+@app.route('/saveR1')
 @login_required
 def save1():
     def do_work(value):
-        a=cameraController.pls(value)
+        a=cameraController.getResults(value)
         with app.app_context():
             db.session.add(a)
             db.session.commit()

@@ -29,19 +29,3 @@ def record_status():
 def video_viewer():
     return cameraController.video_viewer()
 
-
-
-# @mod3.route('/savepls')
-# @login_required
-# def save():
-#     def do_work(value):
-#         a=cameraController.pls(value)
-#         with current_app.app_context():
-#             db.session.add(a)
-#             db.session.commit()
-#         import time
-#         time.sleep(value)
-#
-#     thread = Thread(target=do_work, kwargs={'value': request.args.get('value', current_user.id)})
-#     thread.start()
-#     return render_template('start.html', title='haha')

@@ -67,7 +67,7 @@ class PatientController(IController):
 
 
     def results(self,pacientId):
-        data=patientRepository.results(pacientId)
+        data=patientRepository.results(pacientId, current_user.id)
         return render_template('results.html', title='Rezultate', value=data)
 
     def graph(self,pacientId):
@@ -78,7 +78,9 @@ class PatientController(IController):
             x.append(data[0][0][i])
             y.append(i)
         img = io.BytesIO()
+
         plt.plot(y, x)
+        plt.axis([0, len(y), 0, 1])
         plt.savefig(img, format='png')
         img.seek(0)
         plt.close()

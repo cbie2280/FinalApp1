@@ -20,19 +20,16 @@ def pag_medic():
 
 
 @mod1.route('/toti_medicii', methods=['GET'])
-# @login_required
 def toti_medicii():
 
     return medicController.toti()
 
 
 @mod1.route('/sterge_medic/<medicId>')
-# @login_required
 def sterge_medic(medicId):
     return medicController.sterge(medicId)
 
 
 @mod1.route('/aproba_medic/<medicId>', methods=['GET', 'POST'])
-# @login_required
 def aproba_medic(medicId):
     return medicController.aproba_medic(medicId)

@@ -143,8 +143,6 @@
 </head>
 <body>
 <div id="r3">
-    {#    <button id="record" type="submit">Start</button>#}
-    {#    <button id="stop">Stop</button>#}
     <a id="download"></a>
     <script type="text/javascript" src="{{ filename }}"></script>
 </div>
@@ -155,12 +153,12 @@
 <img class="rabbitAnimation" src="{{ rabbit_image }}"/>
 <img class="chickenAnimation" src="{{ chicken_image }}"/>
 <audio autoplay="true" src="{{ sound }}" type="audio/mp3"></audio>
-{#<source src="{{ sound }}" type="audio/mpeg">#}
+
 
 
 
 <div id="some-button">
-    <form action="/savepls1">
+    <form action="/saveR2">
 
         <div class="wrapper">
             <img width="200px" id="some-button" src="{{ multe[0][0] }}"/>
@@ -170,11 +168,11 @@
 
 
     </form>
-        <form action="/savepls">
+        <form action="/saveR">
 
 
         <div class="wrapper">
-{#            <audio id="some-button"  src="{{ multe[1][1] }}" type="audio/mp3"></audio>#}
+
              <audio id="audiotag1" src="{{ multe[1][1] }}" ></audio>
             <img width="200px" id="some-button" src="{{ multe[1][0] }}"/>
             <button id="some-button" class="button1" type="submit"></button>
@@ -191,12 +189,9 @@
 
 
 
-{#    <a href="javascript:play_single_sound();">warning_alarm</a>#}
-
-
 
     </form>
-        <form action="/savepls1">
+        <form action="/saveR1">
 
         <div class="wrapper">
             <img width="200px" id="some-button" src="{{ multe[2][0] }}"/>

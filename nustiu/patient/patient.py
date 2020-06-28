@@ -56,15 +56,16 @@ def sterge_pacient(pacientId):
 @mod2.route('/modifica_varsta/<pacientId>', methods=['GET', 'POST'])
 @login_required
 def modifica_varsta(pacientId):
-    print("bla")
     return patientController.modifica_varsta(pacientId)
 
 
 
 @mod2.route('/results/<pacientId>', methods=["GET", "POST"])
+@login_required
 def results(pacientId):
     return patientController.results(pacientId)
 
 @mod2.route('/graph/<pacientId>', methods=["GET", "POST"])
+@login_required
 def graph(pacientId):
     return patientController.graph(pacientId)

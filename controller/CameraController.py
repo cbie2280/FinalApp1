@@ -129,7 +129,9 @@ class CameraController:
     def predi(self, xo, yo, param):
         p = []
         j = 0
+        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
         while (j <= len(xo) - 200):
+            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             linie = []
             for i in range(j, j + 200):
                 linie.append(xo[i])
@@ -158,7 +160,7 @@ class CameraController:
         left = [36, 37, 38, 39, 40, 41]
         right = [42, 43, 44, 45, 46, 47]
 
-        cap = cv2.VideoCapture('C:\\Users\\Bianca\\PycharmProjects\\FinalApp\\static\\video.avi')
+        cap = cv2.VideoCapture('C:\\Users\\Bianca\\PycharmProjects\\FinalApp1\\static\\video.avi')
         # cap = cv2.VideoCapture(0)
         _, img = cap.read()
 
@@ -251,6 +253,8 @@ class CameraController:
 
         cap.release()
         cv2.destroyAllWindows()
+        print(xo)
+        print(yo)
         return self.predi(xo, yo, param)
 
 

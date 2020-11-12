@@ -1,4 +1,5 @@
 Generic single-database configuration.
 -set APP_SETTINGS=config.DevelopmentConfig
 
--set DATABASE_URL=postgresql://postgres:password@localhost:5432/autism
+-set DATABASE_URL=postgresql://postgres:bobby24@localhost:5432/autism
+-pipenv run python app.py

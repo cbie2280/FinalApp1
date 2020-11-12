@@ -14,7 +14,7 @@ class TestBase(unittest.TestCase):
         config_name = 'testing'
         app = create_app(config_name)
         app.config.update(
-            SQLALCHEMY_DATABASE_URI='postgresql://postgres:password@localhost:5433/testing'
+            SQLALCHEMY_DATABASE_URI='postgresql://postgres:bobby24@localhost:5433/testing'
         )
         return app
 
